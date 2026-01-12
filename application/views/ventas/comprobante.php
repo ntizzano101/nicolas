@@ -211,8 +211,7 @@ font-size:small;
 								}
 							else{
 								$qr1["nroDocRec"]=(float)$cliente->dni;	
-								if($cliente->dni=="" or $cliente->dni==0){
-										$qr1["tipoDocRec"]=99;}
+								if($cliente->dni==="" or $cliente->dni===0){$qr1["tipoDocRec"]=99;}
 								else{$qr1["tipoDocRec"]=96;}	
 								}
 							//tipoCodAut 	string 	OBLIGATORIO – “A” para comprobante autorizado por CAEA, “E” para comprobante autorizado por CAE 	"E"
