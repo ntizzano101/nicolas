@@ -330,6 +330,9 @@
                         <br><br>
                         
                         <input type="hidden" id="items" name="items" value='<?=$factura->items?>'>    
+                        <input type="hidden" id="letra_afip" name="letra_afip" value=''>    
+
+                       
                         <button type="botton" id="aceptar" class="btn btn-primary" onclick="grabar()">Grabar</button>
                         <a href="<?php echo base_url(); ?>/ventas/listar"  class="btn btn-primary">Volver</a>
                     
@@ -407,11 +410,13 @@
                                 <option value="0.27">0006 (26%)</option>
                                 <option value="0.05">0008 (5%)</option>
                                 <option value="0.025">0009 (2.5%)</option>
-                                -->
+                               
                                 <option value="0.105">IVA 10.5%</option>
                                 <option value="0.21">IVA 21%</option>
-                                <option value="0">Exento</option>
-                                <option value="0">No Gravado</option>
+                                <option value="E">Exento</option>
+                                <option value="N">No Gravado</option>
+                                <option value="">No Corresponde</option> 
+                                 -->
                             </select>
                         </div>
 
@@ -516,6 +521,7 @@ $(document).ready(function(){
         {proveedor:$("#cliente").val(),empresa:$("#empresa").val()},
         function(data){
             $("#cod_afip").html(data.combo);
+            $("#letra_afip").val(data.letra);
             $("#errCod_afip").html("");
         });
     }  
@@ -531,12 +537,12 @@ $(document).ready(function(){
                 $("#proviva").val(data.cond_iva);
                 $("#cuit").val(data.cuit);
                 $("#itemIva").html("")
-                //if($.trim(data.cond_iva)=="Consumidor Final" || $.trim(data.cond_iva)=="Exento"){
-                //    $("#itemIva").html("<option value='0' Selected='Selected'>Exento</option>");
-                //}
-                //else{
+                if($("#letra_afip").val()=="C"){
+                    $("#itemIva").html("<option value='' Selected='Selected'>No Corresponde</option>");
+                }
+                else{
                     $("#itemIva").html('<option value=".105">IVA 10,5%</option><option value=".21" Selected="Selected">IVA 21%</option> <option value="E">Exento</option><option value="N">No Gravado</option>');
-                //}                
+                }                
             });
         if($(this).val()==="" || $("#empresa").val()===""){
             $("#cod_afip").html('<option value="">Sin tipos de comprobante</option>');
@@ -546,6 +552,7 @@ $(document).ready(function(){
             {cliente:$(this).val(),empresa:$("#empresa").val()},
             function(data){                
                 $("#cod_afip").html(data.combo);
+                 $("#letra_afip").val(data.letra);
                 $("#errCod_afip").html("");
                 $("#factnro1").html("");
                 $.post(CFG.url + 'Ajax/busca_puertos/',
@@ -571,6 +578,7 @@ $(document).ready(function(){
             {cliente:$("#cliente").val(),empresa:$(this).val()},           
             function(data){
                 $("#cod_afip").html(data.combo);
+                $("#letra_afip").val(data.letra);
                 $("#errCod_afip").html("");
             });
         }    
@@ -677,7 +685,15 @@ function verMdItem(){
     $("#itemDesc").val("");
     $("#itemCant").val("");
     $("#itemPrcU").val("");
+    //ACA TENGO QUE CAGAR LOS IVAS -----
     //$("#itemIva").val(0);
+    $("#itemIva").html("")
+    if($("#letra_afip").val()=="C"){
+       $("#itemIva").html("<option value='' Selected='Selected'>No Corresponde</option>");
+    }
+    else{
+        $("#itemIva").html('<option value=".105">IVA 10,5%</option><option value=".21" Selected="Selected">IVA 21%</option> <option value="E">Exento</option><option value="N">No Gravado</option>');
+    }    
     $("#itemTotal").val("");
     $("#itemTxtBsq").val("");
     $("#mdlItem").modal("show");
@@ -805,7 +821,8 @@ function grabar(){
             vfecha:$('#vfecha').val(),
             id_comp_asoc:$('#id_comp_asoc').val(),
             items:$('#items').val() } ,
-            function(data){                       
+            function(data){   
+                alert(data);                    
                 $('#errores').html('');
                 $('#errores').html(data);
                     if(data.error==""){

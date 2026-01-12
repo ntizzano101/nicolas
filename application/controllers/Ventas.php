@@ -136,7 +136,7 @@ class Ventas extends CI_Controller {
         $obj->shasta=trim($this->input->post('shasta'));      
         $obj->id_comp_asoc=trim($this->input->post('id_comp_asoc'));
         $obj->items=trim($this->input->post('items'));       
-        $obj->vence=trim($this->input->post('vfecha'));       
+        $obj->vence=trim($this->input->post('vfecha'));            
         $resultado=$this->ventas_model->guardar($obj);
         $data["mensaje"]='<div class="alert alert-success alert-dismissible" role="alert">'.
         '<button type="button" class="close" data-dismiss="alert" aria-label="Close">'.
@@ -144,7 +144,7 @@ class Ventas extends CI_Controller {
         'La factura se ha ingresado con éxito'.
         '</div>';
         $data["numero2"]=$resultado;
-        $data["error"]="";
+        $data["error"]="";            
         $resp=json_decode(json_encode($data), true);
         $this->send($resp); 
         return 0;

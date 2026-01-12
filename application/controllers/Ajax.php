@@ -139,6 +139,9 @@ class Ajax extends CI_Controller {
                 $intImpNeto+=$fl["cant"]*$fl["prcu"];
                 $intIva+=round($fl["cant"]*$fl["iva"]*$fl["prcu"],2);
                 }
+             if($fl["iva"]==""){     
+                $intImpNeto+=$fl["cant"]*$fl["prcu"];                
+                }    
         }
         
         $data->cpFl= $cpFl;        
@@ -233,10 +236,11 @@ class Ajax extends CI_Controller {
             else  {
                 $combo.='<option value="'.$tp->id.'">'.$tp->nombre.'</option>';
             }
+            $data->letra=$tp->letra;  
         }
       
         if($combo==""){$combo='<option value="">Sin tipos de comprobante</option>';}       
-        $data->combo= $combo;   
+        $data->combo= $combo;         
         $resp=json_decode(json_encode($data), true);
         $this->send($resp);       
     }

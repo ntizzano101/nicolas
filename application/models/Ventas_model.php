@@ -25,7 +25,7 @@ class Ventas_model extends CI_Model {
         
     public function lista_comprobantes($id_empresa,$id_cliente)
         {           
-            $sql="SELECT DISTINCT id, cod_afip, cod_afip_t,cod_afip.nombre FROM cod_afip".
+            $sql="SELECT DISTINCT id, cod_afip, cod_afip_t,cod_afip.nombre,letra FROM cod_afip".
             " WHERE id_iva=(SELECT cond_iva FROM empresas WHERE id_empresa=?)".
             " AND id_iva_compra=(SELECT iva FROM clientes WHERE id=?)".
             "  ORDER BY cod_afip";
@@ -198,7 +198,7 @@ class Ventas_model extends CI_Model {
         if(!(is_numeric($obj->intTotal))){$obj->intTotal="0.00";}        
         list($ano,$mes,$dia)= explode("-", $obj->fecha);                
         $obj->periva=$ano.$mes;
-        $items=json_decode($obj->items);          
+        $items=json_decode($obj->items);         
         //guardo encabezado          
         $sql="INSERT INTO facturas(
             id_cliente, 
@@ -280,11 +280,14 @@ class Ventas_model extends CI_Model {
         $this->db->query($sql, $mtz);        
         $last_id=$this->db->insert_id();        
         //Ahora los items 
+        $neto0=0;
+        $iva0=0;
         $neto21=0;
         $neto105=0;
         $iva21=0;
         $iva105=0;
         $exento=0;
+        $nogra=0;
         $total=0;
         $neto=0;
         $iva=0;
@@ -296,7 +299,7 @@ class Ventas_model extends CI_Model {
                             $iva21=$iva21+($x->prcu * $x->cant)*0.21; }
              if($x->iva==10.5){$neto105=$neto105+$x->prcu * $x->cant; 
                 $iva105=$iva105+($x->prcu * $x->cant)*0.105;}
-             if($x->iva==0){$exento=$exento+$x->prcu * $x->cant;} 
+             if($x->iva==0){$neto0=$neto0+$x->prcu * $x->cant;} 
              if($x->id_art==""){$x->id_art=0;}
              $sql="select costo from articulos where id_art=".$x->id_art;            
              $rta=$this->db->query($sql);             
