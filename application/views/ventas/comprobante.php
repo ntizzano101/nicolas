@@ -218,6 +218,7 @@ font-size:small;
 							$qr1["tipoCodAut"]="E";	
 							//codAut 	Numérico 14 dígitos 	OBLIGATORIO – Código de autorización otorgado por AFIP para el comprobante 	70417054367476
 							$qr1["codAut"]=(float)$venta->cae;
+							print_r($qr1);
 							$valor=json_encode($qr1);
 							$valor="https://www.afip.gob.ar/fe/qr/?p=" . base64_encode($valor);							
 
