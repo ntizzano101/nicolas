@@ -117,7 +117,7 @@ class Clientes extends CI_Controller {
         if($obj->email!=""){if(!($this->funciones->mail($obj->email))){$error->email="Debe ser un email válido";};}
         if($obj->cuit!=""){if(!($this->funciones->cuit($obj->cuit))){$error->cuit="Debe ser un cuit válido";};}
         if($obj->iva==""){$error->iva="Debe seleccionar una condición de iva";}
-        if($obj->dni!=""){if($obj->dni < 99999 || $obj->dni > 99999999){$error->dni="Rango de número incorrecto";}}
+        if($obj->dni!=""){if($obj->dni < 0 || $obj->dni > 99999999){$error->dni="Rango de número incorrecto";}}
         
         
         if(count((array)$error)==0){//Validacion OK
