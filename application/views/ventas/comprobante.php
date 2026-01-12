@@ -221,7 +221,7 @@ font-size:small;
 							$qr1["codAut"]=(float)$venta->cae;
 							$valor=json_encode($qr1);
 							$valor="https://www.afip.gob.ar/fe/qr/?p=" . base64_encode($valor);							
-*
+
 // Ruta absoluta o relativa al script que quieres ejecutar
 $script ="/var/www/html/facturaelectronica/phpqrcode/usp_php " .$valor. " " . $empresa->cuit."-".$venta->id_factura ;
 
