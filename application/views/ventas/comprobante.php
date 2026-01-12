@@ -222,9 +222,8 @@ font-size:small;
 							$valor=json_encode($qr1);
 							$valor="https://www.afip.gob.ar/fe/qr/?p=" . base64_encode($valor);							
 
-							$ff=shell_exec("php /var/www/html/facturaelectronica/phpqrcode/uso.php ".$valor." ".$empresa->cuit."-".$venta->id_factura);
-							echo "Resultado:" .$ff;
-//							$f=@fopen("https://www.facilsassn.com/facturaelectronica/phpqrcode/uso.php?valor=".$valor."&nombre=".$empresa->cuit."-".$venta->id_factura,$r);													
+							$ff=shell_exec("php /var/www/html/facturaelectronica/phpqrcode/uso.php ".$valor." ".$empresa->cuit."-".$venta->id_factura);							
+							$f=@fopen("https://www.facilsassn.com/facturaelectronica/phpqrcode/uso.php?valor=".$valor."&nombre=".$empresa->cuit."-".$venta->id_factura,$r);													
 							?>							
 							<img src="https://www.facilsassn.com/facturaelectronica/qrs/<?php echo $empresa->cuit."-".$venta->id_factura?>.png" width="200" 
 							height="200">				
