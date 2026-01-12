@@ -222,29 +222,8 @@ font-size:small;
 							$valor=json_encode($qr1);
 							$valor="https://www.afip.gob.ar/fe/qr/?p=" . base64_encode($valor);							
 
-// Inicializar cURL
-$url="https://www.facilsassn.com/facturaelectronica/phpqrcode/uso.php?valor=".$valor."&nombre=".$empresa->cuit."-".$venta->id_factura;													
-$ch = curl_init($url);
-
-// Configurar opciones
-curl_setopt($ch, CURLOPT_RETURNTRANSFER, true); // Retornar el contenido como string
-curl_setopt($ch, CURLOPT_FOLLOWLOCATION, true); // Seguir redirecciones
-curl_setopt($ch, CURLOPT_TIMEOUT, 10);          // Tiempo máximo de espera en segundos
-
-// Ejecutar y obtener el resultado
-$response = curl_exec($ch);
-
-// Manejo de errores
-if (curl_errno($ch)) {
-    echo "Error en cURL: " . curl_error($ch);
-} else {
-    echo "Contenido recibido:\n";
-    echo $response;
-}
-
-// Cerrar cURL
-curl_close($ch);
-
+							$ff=shell_exec("php /var/www/html/facturaelectronica/phpqrcode/uso.php ".$valor." ".$empresa->cuit."-".$venta->id_factura);
+							echo "Resultado:" .$ff;
 //							$f=@fopen("https://www.facilsassn.com/facturaelectronica/phpqrcode/uso.php?valor=".$valor."&nombre=".$empresa->cuit."-".$venta->id_factura,$r);													
 							?>							
 							<img src="https://www.facilsassn.com/facturaelectronica/qrs/<?php echo $empresa->cuit."-".$venta->id_factura?>.png" width="200" 
