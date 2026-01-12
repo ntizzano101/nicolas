@@ -222,19 +222,28 @@ font-size:small;
 							$valor=json_encode($qr1);
 							$valor="https://www.afip.gob.ar/fe/qr/?p=" . base64_encode($valor);							
 
-// Ruta absoluta o relativa al script que quieres ejecutar
-$script ="/var/www/html/facturaelectronica/phpqrcode/usp_php " .$valor. " " . $empresa->cuit."-".$venta->id_factura ;
+// Inicializar cURL
+$url="https://www.facilsassn.com/facturaelectronica/phpqrcode/uso.php?valor=".$valor."&nombre=".$empresa->cuit."-".$venta->id_factura;													
+$ch = curl_init($url);
 
-// Escapar la ruta para evitar problemas con espacios o caracteres especiales
-$command = escapeshellcmd("php " . $script);
+// Configurar opciones
+curl_setopt($ch, CURLOPT_RETURNTRANSFER, true); // Retornar el contenido como string
+curl_setopt($ch, CURLOPT_FOLLOWLOCATION, true); // Seguir redirecciones
+curl_setopt($ch, CURLOPT_TIMEOUT, 10);          // Tiempo máximo de espera en segundos
 
-// Ejecutar y capturar la salida
-$output = shell_exec($command);
+// Ejecutar y obtener el resultado
+$response = curl_exec($ch);
 
-// Mostrar la salida del script ejecutado
-#echo "Salida del script:\n";
-#echo $output;
-##
+// Manejo de errores
+if (curl_errno($ch)) {
+    echo "Error en cURL: " . curl_error($ch);
+} else {
+    echo "Contenido recibido:\n";
+    echo $response;
+}
+
+// Cerrar cURL
+curl_close($ch);
 
 //							$f=@fopen("https://www.facilsassn.com/facturaelectronica/phpqrcode/uso.php?valor=".$valor."&nombre=".$empresa->cuit."-".$venta->id_factura,$r);													
 							?>							
