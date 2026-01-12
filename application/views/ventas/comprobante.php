@@ -211,7 +211,9 @@ font-size:small;
 								}
 							else{
 								$qr1["nroDocRec"]=(float)$cliente->dni;	
-								$qr1["tipoDocRec"]=96;
+								if($cliente->dni=="" or $cliente->dni==0){
+										$qr1["tipoDocRec"]=99;}
+								else{$qr1["tipoDocRec"]=96;}	
 								}
 							//tipoCodAut 	string 	OBLIGATORIO – “A” para comprobante autorizado por CAEA, “E” para comprobante autorizado por CAE 	"E"
 							$qr1["tipoCodAut"]="E";	
@@ -219,6 +221,21 @@ font-size:small;
 							$qr1["codAut"]=(float)$venta->cae;
 							$valor=json_encode($qr1);
 							$valor="https://www.afip.gob.ar/fe/qr/?p=" . base64_encode($valor);							
+/*
+// Ruta absoluta o relativa al script que quieres ejecutar
+$script = /var/www/html/facturaelectronica/phpqrcode';
+
+// Escapar la ruta para evitar problemas con espacios o caracteres especiales
+$command = escapeshellcmd("php " . $script);
+
+// Ejecutar y capturar la salida
+$output = shell_exec($command);
+
+// Mostrar la salida del script ejecutado
+echo "Salida del script:\n";
+echo $output;
+##
+*/
 							$f=@fopen("https://www.facilsassn.com/facturaelectronica/phpqrcode/uso.php?valor=".$valor."&nombre=".$empresa->cuit."-".$venta->id_factura,$r);													
 							?>							
 							<img src="https://www.facilsassn.com/facturaelectronica/qrs/<?php echo $empresa->cuit."-".$venta->id_factura?>.png" width="200" 
