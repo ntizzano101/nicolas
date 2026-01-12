@@ -291,15 +291,22 @@ class Ventas_model extends CI_Model {
         $total=0;
         $neto=0;
         $iva=0;
+        $monotri=0;
         foreach($items as $x){
-             if(is_numeric($x->iva))
-             {$x->iva=$x->iva*100;$x->tipo="I";}
-             else{$x->tipo=$x->iva;$x->iva=0;}
+             if(is_numeric($x->iva)){$x->iva=$x->iva*100;$x->tipo="I";}
+             if($x->iva=="E" or $x->iva=="N"){$x->tipo=$x->iva;$x->iva=0;}
+             if($x->iva===""){$x->tipo=$x->iva;$x->iva=0;}
              if($x->iva==21){$neto21=$neto21+ $x->prcu * $x->cant;
                             $iva21=$iva21+($x->prcu * $x->cant)*0.21; }
              if($x->iva==10.5){$neto105=$neto105+$x->prcu * $x->cant; 
                 $iva105=$iva105+($x->prcu * $x->cant)*0.105;}
-             if($x->iva==0){$neto0=$neto0+$x->prcu * $x->cant;} 
+             if($x->iva==0 and $x->tipo=="I"){$neto0=$neto0+$x->prcu * $x->cant;} 
+             //Monotributo             
+             if($x->iva==0 and $x->tipo===""){$monotri=$monotri+$x->prcu * $x->cant;}
+             //nograbado
+             if($x->iva==0 and $x->tipo==="N"){$nogra=$nogra+$x->prcu * $x->cant;}
+             //exento 
+             if($x->iva==0 and $x->tipo==="E"){$exento=$exento+$x->prcu * $x->cant;}
              if($x->id_art==""){$x->id_art=0;}
              $sql="select costo from articulos where id_art=".$x->id_art;            
              $rta=$this->db->query($sql);             
@@ -323,8 +330,8 @@ class Ventas_model extends CI_Model {
              $this->db->query($sql, $mtz);
         }
         $iva=$iva21+$iva105;
-        $neto=$neto21+$neto105;
-        $total=$neto21+$neto105+$iva21+$iva105+$exento;    
+        $neto=$neto21+$neto105+$neto0+$monotri;
+        $total=$neto21+$neto105+$iva21+$iva105+$exento+$monotri+$neto0+$nogra;    
         $sql="UPDATE facturas set 
         total=?,
         excento=?,

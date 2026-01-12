@@ -821,8 +821,7 @@ function grabar(){
             vfecha:$('#vfecha').val(),
             id_comp_asoc:$('#id_comp_asoc').val(),
             items:$('#items').val() } ,
-            function(data){   
-                alert(data);                    
+            function(data){                                
                 $('#errores').html('');
                 $('#errores').html(data);
                     if(data.error==""){
