@@ -40,7 +40,7 @@ font-size:small;
 		<?=$empresa->cond_iva?><br>
 	</td>
 	<td width="10%" style="text-align:center" valign="top"><span style="font-size:60px"><?=$venta->letra?></span><br>
-	<?php if(in_array($venta->letra,array("A","B",))) { ?>	
+	<?php if(in_array($venta->letra,array("A","B","C"))) { ?>	
 	<span style="font-size:20px">COD.<?=$venta->codigo_comp?>		
 	</span>
 	<?php } ?>
@@ -173,7 +173,7 @@ font-size:small;
 		</td>
 		</tr>	
 	<?php } ?>	
-	<?php if(in_array($venta->letra,array("A","B")) and is_numeric($venta->cae)) { ?>
+	<?php if(in_array($venta->letra,array("A","B","C")) and is_numeric($venta->cae)) { ?>
 	<tr>
 			<td width="100%" colspan="10" align="center">
 				<table width="100%" align="center">
@@ -219,13 +219,13 @@ font-size:small;
 							$qr1["codAut"]=(float)$venta->cae;
 							$valor=json_encode($qr1);
 							$valor="https://www.afip.gob.ar/fe/qr/?p=" . base64_encode($valor);							
-							$f=@fopen("https://www.facilsassn.com/facturaelectronica/phpqrcode/uso.php?valor=".$valor."&nombre=zap".$venta->id_factura,$r);													
+							$f=@fopen("https://www.facilsassn.com/facturaelectronica/phpqrcode/uso.php?valor=".$valor."&nombre=".$empresa->cuit."-".$venta->id_factura,$r);													
 							?>							
-							<img src="https://www.facilsassn.com/facturaelectronica/qrs/zap<?=$venta->id_factura?>.png" width="200" 
+							<img src="https://www.facilsassn.com/facturaelectronica/qrs/<?php echo $empresa->cuit."-".$venta->id_factura?>.png" width="200" 
 							height="200">				
 						</td>
 						<td>
-							<img src="/zapatahs/img/arca.png"><br>
+							<img src="/img/arca.png"><br>
 							CAE Nro: <?php echo $venta->cae ?>
 							Fecha.Vto.Cae: <?php echo fechaDBtoHtml($venta->cae_vence) ?>
 						</td>						
