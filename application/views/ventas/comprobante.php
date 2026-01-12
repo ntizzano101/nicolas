@@ -225,7 +225,7 @@ font-size:small;
 							height="200">				
 						</td>
 						<td>
-							<img src="/img/arca.png"><br>
+							<img src="https://www.facilsassn.com/zapatahs/img/arca.png"><br>
 							CAE Nro: <?php echo $venta->cae ?>
 							Fecha.Vto.Cae: <?php echo fechaDBtoHtml($venta->cae_vence) ?>
 						</td>						
