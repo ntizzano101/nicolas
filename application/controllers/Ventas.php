@@ -416,7 +416,8 @@ $this->email->clear(TRUE);
     // ============================
     if (!$this->email->send()) {
         $this->session->set_flashdata('toast_error', 'Error al enviar: ' . $this->email->print_debugger());
-      
+      var_dump($this->email->print_debugger());
+        die(); 
     } else {
         $this->session->set_flashdata('toast_success', 'Factura enviada correctamente');
       
