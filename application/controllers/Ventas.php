@@ -375,7 +375,12 @@ public function enviar_mail()
          'smtp_keepalive' => false
           ];
 
-
+$config['smtp_conn_options'] = array(
+    'ssl' => array( 
+                'verify_peer' => false, 
+                'verify_peer_name' => false, 
+                'allow_self_signed'=> true )
+);
 /*
 $config = [
     'protocol'    => 'smtp',
