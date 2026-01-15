@@ -33,7 +33,7 @@ class Ventas extends CI_Controller {
      ##CLIENTES
     public function index()
     {
-       
+
         $this->load->model('ventas_model');
         $d=date("Y-m-d");
         $data["facturas"]=$this->ventas_model->listado("",$d,$d);
@@ -239,16 +239,192 @@ class Ventas extends CI_Controller {
         $data["venta"]=$this->ventas_model->venta($id);
         $data["empresa"]=$this->ventas_model->empresa($id);
         $data["cliente"]=$this->ventas_model->cliente($id);
-        $data["items"]=$this->ventas_model->items($id);   
-       
+        $data["items"]=$this->ventas_model->items($id);       
         $this->load->view('ventas/comprobante.php',$data);
-
     }
 
+public function guardar_pdf($id)
+{
+    $this->load->library('pdf'); // Tu clase Pdf que extiende Dompdf
+
+    // 1. Renderizar la vista a HTML
+       if(!($id>0)){ return false;}
+        $this->load->model('ventas_model');
+        $data["venta"]=$this->ventas_model->venta($id);
+        $data["empresa"]=$this->ventas_model->empresa($id);
+        $data["cliente"]=$this->ventas_model->cliente($id);
+        $data["items"]=$this->ventas_model->items($id);       
+        $html=$this->load->view('ventas/comprobante.php', $data, TRUE);
+    // 2. Configurar Dompdf
+        $this->pdf->loadHtml($html);
+        $this->pdf->setPaper('A4', 'portrait');
+        $this->pdf->render();
+
+    // 3. Obtener el contenido del PDF en memoria
+    $output = $this->pdf->output();
+    // 4. Guardarlo en una carpeta del servidor
+    $ruta = FCPATH . "pdfs/comprobante_".$id.".pdf" ;  // Ej: /var/www/html/proyecto/pdfs/reporte.pdf
+
+    // Crear carpeta si no existe
+    if (!is_dir(FCPATH . 'pdfs')) {
+        mkdir(FCPATH . 'pdfs', 0777, true);
+    }
+
+    file_put_contents($ruta, $output);
+    return "comprobante_".$id.".pdf" ; 
+}
+
+public function modal_enviar_mail($id_factura)
+{
+    
+
+    // Factura
+    $data['factura'] = $this->db->where('id_factura', $id_factura)->get('facturas')->row();
+
+// Empresa
+$id_empresa=$data['factura']->id_empresa;
+    $data['empresa'] = $this->db->where('id_empresa',$id_empresa)->get('empresas')->row();
+
+    // Cliente
+    $data['cliente'] = $this->db
+        ->where('id', $data['factura']->id_cliente)
+        ->get('clientes')
+        ->row();
+
+//CBUS - ALIAS     
+    $data['cbu'] = $this->db
+        ->where('id_empresa', $id_empresa)
+        ->where('sugerir', 1)
+        ->get('bancos')
+        ->result();
+
+    // Cuentas SMTP de esa empresa
+    $data['cuentas'] = $this->db
+        ->where('id_empresa', $id_empresa)
+        ->where('activo', 1)
+        ->get('email_cuentas')
+        ->result();
+
+    // Render del modal
+    $this->load->view('ventas/modal_enviar_mail', $data);
+}
+
    
+public function enviar_mail()
+{
+    $id_empresa = $this->input->post('id_empresa');
+    $id_factura = $this->input->post('id_factura');
+    $id_cuenta  = $this->input->post('id_cuenta');
+
+    $para       = $this->input->post('para');
+    $asunto     = $this->input->post('asunto');
+    $mensaje    = $this->input->post('mensaje');
 
 
-  
+
+    // ============================
+    // 1. DATOS DE EMPRESA
+    // ============================
+    $empresa = $this->db->where('id_empresa', $id_empresa)->get('empresas')->row();
+
+    // ============================
+    // 2. DATOS DE FACTURA
+    // ============================
+    $factura = $this->db->where('id_factura', $id_factura)->get('facturas')->row();
+
+    // Ruta del PDF ya generado
+    //lo creo primero
+    $pdf_nombre=$this->guardar_pdf($id_factura);
+
+    $ruta_pdf = FCPATH . "pdfs/" . $pdf_nombre;
+
+    if (!file_exists($ruta_pdf)) {
+        $this->session->set_flashdata('toast_error', 'No se encontró el PDF de la factura');
+        redirect('ventas');
+       
+    }
+
+    // ============================
+    // 3. DATOS DE CUENTA SMTP
+    // ============================
+    $cuenta = $this->db->where('id', $id_cuenta)->get('email_cuentas')->row();
+
+    if (!$cuenta) {
+        $this->session->set_flashdata('toast_error', 'Cuenta SMTP inválida');
+        redirect('ventas');
+        
+    }
+
+    // ============================
+    // 4. CONFIGURAR SMTP (CodeIgniter)
+    // ============================
+    $config = [
+        'protocol'  => 'smtp',
+        'smtp_host' => $cuenta->smtp_host,
+        'smtp_user' => $cuenta->smtp_user,
+        'smtp_pass' => $cuenta->smtp_pass,
+        'smtp_port' => $cuenta->smtp_port,
+        'smtp_crypto' => $cuenta->smtp_crypto, // tls / ssl / vacío
+        'mailtype'  => "html",
+        'charset'   => 'utf-8',
+        'newline'   => "\r\n",
+        'crlf'      => "\r\n",
+        'validate' => 'false',
+        'wordwrap' => TRUE,
+         'smtp_timeout' => 30,
+         'smtp_keepalive' => false
+          ];
+
+
+/*
+$config = [
+    'protocol'    => 'smtp',
+    'smtp_host'   => 'c2790665.ferozo.com',
+    'smtp_user'   => 'tioalberto@facilsassn.online',
+    'smtp_pass'   => '7XQSma/1aF',
+    'smtp_port'   => 465,
+    'smtp_crypto' => 'ssl',
+    'mailtype'    => 'html',
+    'charset'     => 'utf-8',
+    'newline'     => "\r\n",
+    'crlf'        => "\r\n"
+];
+*/
+$this->load->library('email',$config);
+$this->email->clear(TRUE);
+// var_dump($this->email->smtp_connect());
+//exit;
+
+
+    // ============================
+    // 5. ARMAR MAIL
+    // ============================
+    $this->email->from($cuenta->smtp_user, $cuenta->nombre);    
+
+    $this->email->to($para);
+
+    $this->email->subject($asunto);
+    $this->email->message(nl2br($mensaje));
+
+    // Adjuntar PDF
+    $this->email->attach($ruta_pdf);
+
+
+   
+    // ============================
+    // 6. ENVIAR
+    // ============================
+    if (!$this->email->send()) {
+        $this->session->set_flashdata('toast_error', 'Error al enviar: ' . $this->email->print_debugger());
+      
+    } else {
+        $this->session->set_flashdata('toast_success', 'Factura enviada correctamente');
+      
+         } 
+    
+    
+    redirect('ventas');
+}  
     
 }  
 ?>

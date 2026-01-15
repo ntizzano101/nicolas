@@ -1,4 +1,4 @@
-  <nav class="navbar navbar-default">
+<nav class="navbar navbar-default">
   <div class="container-fluid">
     <!-- Brand and toggle get grouped for better mobile display -->
     <div class="navbar-header">
@@ -8,7 +8,7 @@
         <span class="icon-bar"></span>
         <span class="icon-bar"></span>
       </button>
-      <a class="navbar-brand" href="<?=base_url()?>">NICOLAS TIZZANO</a>
+      <a class="navbar-brand" href="<?=base_url()?>">Ceci & Nico</a>
     </div>
 
     <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
@@ -70,7 +70,8 @@
         <li class="dropdown">
           <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false"><?php echo $this->session->userdata("titulo") ?><span class="caret"></span></a>
           <ul class="dropdown-menu">
-            <li><a href="<?=base_url()?>cambiar_contrasena">Cambiar contraseña</a></li>
+            <li><a href="<?=base_url()?>correos/">Configurar Correos</a></li>
+			<li><a href="<?=base_url()?>cambiar_contrasena">Cambiar contraseña</a></li>
             <li><a href="<?=base_url()?>salir">Salir</a></li>
           </ul>
         </li>

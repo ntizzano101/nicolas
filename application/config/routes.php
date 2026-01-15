@@ -103,6 +103,12 @@ $route['ventas/listar'] = 'ventas/listar';
 $route['ventas/comprobante(:num)'] = 'ventas/comprobante/$1';
 //TABLERO
 
+#EMAIL
+$route['correos'] = 'email_cuentas/index';
+$route['correos_configurar'] ='email_cuentas/form';
+
+
+
 //*******ROUTES CURSOS*************
 /*
 $route['cursos'] = 'Cursos_Controller/listado';

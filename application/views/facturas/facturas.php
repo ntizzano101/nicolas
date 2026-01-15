@@ -124,4 +124,4 @@ function verBorrar(id,cliente){
 }
 
     
-</script>
+

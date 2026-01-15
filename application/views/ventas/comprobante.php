@@ -29,7 +29,7 @@ font-size:small;
 </head>
 <body>
 <center>
-<table border=1>
+<table border=1 width="100%">
 <tr>
 	<td width="45%" style="text-align:left;margin-left:100px">
 		<?=$empresa->razon_soc?><br>
@@ -120,12 +120,12 @@ font-size:small;
 		<?php }
 		} 
 	for($j=0;$j<30 - count($items);$j++){ ?>	
-			<tr>
-			<td>&nbsp;</td>
-			<td>&nbsp;</td>
-			<td>&nbsp;</td>
-			<td>&nbsp;</td>
-			<td>&nbsp;</td>		
+			<tr style="border:0">
+			<td style="border:0">&nbsp;</td>
+			<td style="border:0">&nbsp;</td>
+			<td style="border:0">&nbsp;</td>
+			<td style="border:0">&nbsp;</td>
+			<td style="border:0">&nbsp;</td>		
 			</tr>
 		<?php
 		}		

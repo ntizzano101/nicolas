@@ -68,22 +68,27 @@
                                         <a class="btn-default fa fa-eye" title="Ver Comprobante" 
                                             href="<?php echo base_url(); ?>ventas/comprobante/<?=$fact->id?>" target="blank_">
                                         </a>
-                                        &nbsp; &nbsp;
+                                        
                                         <a class="btn-default fa fa-exchange" title="Generar De Credito"
                                             onclick="verNC(<?=$fact->id?>, '<?=$fact->cliente?>')" >                              
                                             </a>                                        
-                                        &nbsp; &nbsp;
+                                        
                                         <a class="btn-default fa fa-money" title="Ver Comprobante Asociado" 
                                             href="<?php echo base_url(); ?>ventas/comprobante/<?=$fact->id_comp_asoc?>" target="blank_">
                                         </a> 
-                                        &nbsp; &nbsp;
+                                   
                                         <a class="btn-default fa fa-eraser" title="Borrar" 
                                            onclick="verBorrar(<?=$fact->id?>, '<?=$fact->cliente?>')" >  
                                         </a>    
-                                        &nbsp; &nbsp;
+                                        
                                         <a class="btn-default fa fa-edit" title="Modificar Items" 
                                            onclick="verModi(<?=$fact->id?>, '<?=$fact->cliente?>')" >  
-                                        </a>                                              
+                                        </a>
+                                        <a class="btn-default fa fa-file-pdf-o" title="Descargar Pdf" 
+                                            href="<?php echo base_url(); ?>ventas/guardar_pdf/<?=$fact->id?>" target="blank_">
+                                        </a> 
+                                       <a class="btn-default fa fa-envelope" title="Enviar Por Mail" data-toggle="modal" data-target="#modalEnviarMail" onclick="cargarModalEnviarMail(<?= $fact->id ?>)"></a>
+
                                         </td>                                         
                                      
                                 </tr>
@@ -221,6 +226,7 @@
           </div>
         </div>
     </div>  
+        <!MODALS !>
     
 </div>
 
@@ -313,6 +319,24 @@ function verBorrar(id,cliente){
               $("#mdlCambioItems").modal("show");
             }
         });
-    } 
+    }
+   function cargarModalEnviarMail(id_factura){
+    $("#modalEnviarMail").remove();
+    // Limpia modal anterior 
+    $.get("<?= site_url('ventas/modal_enviar_mail/') ?>" + id_factura, function(html) {
+         $("body").append(html); $("#modalEnviarMail").modal("show"); } ); 
+     }
 
 </script>
+</script>
+<?php if ($this->session->flashdata('toast_success')): ?>
+<script>
+toastSuccess("<?= $this->session->flashdata('toast_success') ?>");
+</script>
+<?php endif; ?>
+
+<?php if ($this->session->flashdata('toast_error')): ?>
+<script>
+toastError("<?= $this->session->flashdata('toast_error') ?>");
+</script>
+<?php endif; ?>
