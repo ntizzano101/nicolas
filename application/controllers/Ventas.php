@@ -355,7 +355,7 @@ public function enviar_mail_local()
         
     }
 
-$to = "notificaciones@facilsassn.com";
+$to = $para;
 $subject = $asunto;
 
 // Ruta del archivo adjunto
