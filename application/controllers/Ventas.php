@@ -309,9 +309,106 @@ $id_empresa=$data['factura']->id_empresa;
     $this->load->view('ventas/modal_enviar_mail', $data);
 }
 
-   
+public function enviar_mail_local()
+    { 
+    #INICIO MAIL LOCAL
+    $id_empresa = $this->input->post('id_empresa');
+    $id_factura = $this->input->post('id_factura');
+    $id_cuenta  = $this->input->post('id_cuenta');
+
+    $para       = $this->input->post('para');
+    $asunto     = $this->input->post('asunto');
+    $mensaje    = $this->input->post('mensaje');
+
+
+
+    // ============================
+    // 1. DATOS DE EMPRESA
+    // ============================
+    $empresa = $this->db->where('id_empresa', $id_empresa)->get('empresas')->row();
+
+    // ============================
+    // 2. DATOS DE FACTURA
+    // ============================
+    $factura = $this->db->where('id_factura', $id_factura)->get('facturas')->row();
+
+    // Ruta del PDF ya generado
+    //lo creo primero
+    $pdf_nombre=$this->guardar_pdf($id_factura);
+
+    $ruta_pdf = FCPATH . "pdfs/" . $pdf_nombre;
+
+    if (!file_exists($ruta_pdf)) {
+        $this->session->set_flashdata('toast_error', 'No se encontró el PDF de la factura');
+        redirect('ventas');
+       
+    }
+
+    // ============================
+    // 3. DATOS DE CUENTA SMTP
+    // ============================
+    $cuenta = $this->db->where('id', $id_cuenta)->get('email_cuentas')->row();
+
+    if (!$cuenta) {
+        $this->session->set_flashdata('toast_error', 'Cuenta SMTP inválida');
+        redirect('ventas');
+        
+    }
+
+$to = "notificaciones@facilsassn.com";
+$subject = $asunto;
+
+// Ruta del archivo adjunto
+$file =  $ruta_pdf;
+$filename = basename($file);
+$file_size = filesize($file);
+$handle = fopen($file, "r");
+$content = fread($handle, $file_size);
+fclose($handle);
+
+// Codificar el archivo en base64
+$encoded_content = chunk_split(base64_encode($content));
+
+// Boundary único
+$boundary = md5(time());
+
+// Headers
+$headers  = "From: notificaciones@facilsassn.com\r\n";
+$headers .= "Reply-To: respuestas@localhost\r\n";
+$headers .= "MIME-Version: 1.0\r\n";
+$headers .= "Content-Type: multipart/mixed; boundary=\"".$boundary."\"\r\n";
+
+// Cuerpo del mensaje
+$body  = "--$boundary\r\n";
+$body .= "Content-Type: text/html; charset=UTF-8\r\n";
+$body .= "Content-Transfer-Encoding: 7bit\r\n\r\n";
+$body .= $mensaje."\r\n\r\n";
+
+// Adjuntar archivo
+$body .= "--$boundary\r\n";
+$body .= "Content-Type: application/pdf; name=\"$filename\"\r\n";
+$body .= "Content-Disposition: attachment; filename=\"$filename\"\r\n";
+$body .= "Content-Transfer-Encoding: base64\r\n\r\n";
+$body .= $encoded_content . "\r\n\r\n";
+$body .= "--$boundary--";
+
+// Enviar
+if (mail($to, $subject, $body, $headers)){  $this->session->set_flashdata('toast_success', 'Factura enviada correctamente');}
+else{ $this->session->set_flashdata('toast_error', 'Error al enviar: ');}    
+redirect('ventas');
+
+
+
+    #FIN MAIL LOCAL 
+    }   
 public function enviar_mail()
 {
+    #esto solo sirve para local por el momento    
+    if ($_SERVER['HTTP_HOST'] <> 'localhost') {
+            $this->enviar_mail_local();
+            return;          
+        }
+
     $id_empresa = $this->input->post('id_empresa');
     $id_factura = $this->input->post('id_factura');
     $id_cuenta  = $this->input->post('id_cuenta');
