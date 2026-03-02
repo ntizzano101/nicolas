@@ -374,7 +374,7 @@ $boundary = md5(time());
 
 // Headers
 $headers  = "From: notificaciones@facilsassn.com\r\n";
-$headers .= "Reply-To: respuestas@localhost\r\n";
+$headers .= "Reply-To: ". $empresa->email ."\r\n";
 $headers .= "MIME-Version: 1.0\r\n";
 $headers .= "Content-Type: multipart/mixed; boundary=\"".$boundary."\"\r\n";
 

@@ -226,6 +226,7 @@ class Ajax extends CI_Controller {
         $tipos=$this->ventas_model->lista_comprobantes($empresa,$cliente);
         $data = new stdClass();
         $combo=""; 
+        $data->letra="";
         foreach ($tipos as $tp) {
               //Solo Para  LA NICOLEÑA  no va interno
             if($tp->nombre=="Interno"){
@@ -236,7 +237,7 @@ class Ajax extends CI_Controller {
             else  {
                 $combo.='<option value="'.$tp->id.'">'.$tp->nombre.'</option>';
             }
-            $data->letra=$tp->letra;  
+            if($data->letra==""){$data->letra=$tp->letra;}  
         }
       
         if($combo==""){$combo='<option value="">Sin tipos de comprobante</option>';}       
