@@ -271,7 +271,7 @@ public function guardar_pdf($id)
     }
 
     file_put_contents($ruta, $output);
-    return "comprobante_".$id.".pdf" ; 
+    redirect(base_url()."pdfs/comprobante_".$id.".pdf") ; 
 }
 
 public function modal_enviar_mail($id_factura)

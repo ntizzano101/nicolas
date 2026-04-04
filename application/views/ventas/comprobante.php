@@ -222,13 +222,13 @@ font-size:small;
 							$valor="https://www.afip.gob.ar/fe/qr/?p=" . base64_encode($valor);							
 
 							$ff=shell_exec("php /var/www/html/facturaelectronica/phpqrcode/uso.php ".$valor." ".$empresa->cuit."-".$venta->id_factura);							
-							$f=@fopen("https://www.facilsassn.com/facturaelectronica/phpqrcode/uso.php?valor=".$valor."&nombre=".$empresa->cuit."-".$venta->id_factura,$r);													
+							$f=@fopen(base_url()."facturaelectronica/phpqrcode/uso.php?valor=".$valor."&nombre=".$empresa->cuit."-".$venta->id_factura,$r);													
 							?>							
-							<img src="https://www.facilsassn.com/facturaelectronica/qrs/<?php echo $empresa->cuit."-".$venta->id_factura?>.png" width="200" 
+							<img src="<?php echo base_url()?>facturaelectronica/qrs/<?php echo $empresa->cuit."-".$venta->id_factura?>.png" width="200" 
 							height="200">				
 						</td>
 						<td>
-							<img src="https://www.facilsassn.com/zapatahs/img/arca.png"><br>
+							<img src="<?php echo base_url()?>img/arca.png"><br>
 							CAE Nro: <?php echo $venta->cae ?>
 							Fecha.Vto.Cae: <?php echo fechaDBtoHtml($venta->cae_vence) ?>
 						</td>						
