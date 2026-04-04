@@ -245,45 +245,38 @@ class Ventas extends CI_Controller {
 
 public function guardar_pdf($id)
 {
-//    $this->load->library('pdf'); // Tu clase Pdf que extiende Dompdf
+    if (!($id > 0)) { return false; }
 
-$options = new Dompdf\Options();
-$options->set('isRemoteEnabled', true);
-$this->load->library('pdf', $options);
+    $this->load->model('ventas_model');
+    $data["venta"]   = $this->ventas_model->venta($id);
+    $data["empresa"] = $this->ventas_model->empresa($id);
+    $data["cliente"] = $this->ventas_model->cliente($id);
+    $data["items"]   = $this->ventas_model->items($id);
 
-    // 1. Renderizar la vista a HTML
-       if(!($id>0)){ return false;}
-        $this->load->model('ventas_model');
-        $data["venta"]=$this->ventas_model->venta($id);
-        $data["empresa"]=$this->ventas_model->empresa($id);
-        $data["cliente"]=$this->ventas_model->cliente($id);
-        $data["items"]=$this->ventas_model->items($id);       
-        $html=$this->load->view('ventas/comprobante.php', $data, TRUE);
-    // 2. Configurar Dompdf
+    // Cargar librería PDF (ya configurada)
+    $this->load->library('pdf');
 
+    // Renderizar vista
+    $html = $this->load->view('ventas/comprobante.php', $data, TRUE);
 
-$this->pdf->loadHtml($html);
-$this->pdf->render();
-$this->pdf->stream("comprobante.pdf", array("Attachment" => false));
+    // Generar PDF
+    $this->pdf->loadHtml($html);
+    $this->pdf->setPaper('A4', 'portrait');
+    $this->pdf->render();
 
-
-        #$this->pdf->loadHtml($html);
-        #$this->pdf->setPaper('A4', 'portrait');
-        #$this->pdf->render();
-
-    // 3. Obtener el contenido del PDF en memoria
+    // Guardar archivo
     $output = $this->pdf->output();
-    // 4. Guardarlo en una carpeta del servidor
-    $ruta = FCPATH . "pdfs/comprobante_".$id.".pdf" ;  // Ej: /var/www/html/proyecto/pdfs/reporte.pdf
+    $ruta = FCPATH . "pdfs/comprobante_".$id.".pdf";
 
-    // Crear carpeta si no existe
     if (!is_dir(FCPATH . 'pdfs')) {
         mkdir(FCPATH . 'pdfs', 0777, true);
     }
 
     file_put_contents($ruta, $output);
-    redirect(base_url()."pdfs/comprobante_".$id.".pdf") ; 
+
+    redirect(base_url()."pdfs/comprobante_".$id.".pdf");
 }
+
 
 public function modal_enviar_mail($id_factura)
 {
