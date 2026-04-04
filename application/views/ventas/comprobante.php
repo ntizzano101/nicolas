@@ -220,12 +220,14 @@ font-size:small;
 							$qr1["codAut"]=(float)$venta->cae;							
 							$valor=json_encode($qr1);
 							$valor="https://www.afip.gob.ar/fe/qr/?p=" . base64_encode($valor);							
-
-							$ff=shell_exec("php /var/www/html/facturaelectronica/phpqrcode/uso.php ".$valor." ".$empresa->cuit."-".$venta->id_factura);							
-							$f=@fopen(base_url()."facturaelectronica/phpqrcode/uso.php?valor=".$valor."&nombre=".$empresa->cuit."-".$venta->id_factura,$r);													
+							$this->config->load('afip');
+							$ruta_abs = $this->config->item('ruta_afip_abs');
+							$ruta_url = $this->config->item('ruta_afip_url');
+							$ff=shell_exec("php ".$ruta_abs."facturaelectronica/phpqrcode/uso.php ".$valor." ".$empresa->cuit."-".$venta->id_factura);							
+							$f=@fopen($ruta_url."facturaelectronica/phpqrcode/uso.php?valor=".$valor."&nombre=".$empresa->cuit."-".$venta->id_factura,$r);													
 							?>							
-							<img src="<?php echo base_url()?>facturaelectronica/qrs/<?php echo $empresa->cuit."-".$venta->id_factura?>.png" width="200" 
-							height="200">				
+							<img src="<?php echo $ruta_url; ?>facturaelectronica/qrs/<?php echo $empresa->cuit."-".$venta->id_factura?>.png" style="width:200px 
+							;height:200px;">				
 						</td>
 						<td>
 							<img src="<?php echo base_url()?>img/arca.png" style="width:200px;"><br>
