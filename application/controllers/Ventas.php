@@ -508,8 +508,8 @@ $config = [
 */
 $this->load->library('email',$config);
 $this->email->clear(TRUE);
-// var_dump($this->email->smtp_connect());
-//exit;
+ var_dump($this->email->smtp_connect());
+exit;
 
 
     // ============================
