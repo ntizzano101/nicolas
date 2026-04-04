@@ -404,10 +404,10 @@ redirect('ventas');
 public function enviar_mail()
 {
     #esto solo sirve para local por el momento    
-    if ($_SERVER['HTTP_HOST'] <> 'localhost') {
-            $this->enviar_mail_local();
-            return;          
-        }
+    #if ($_SERVER['HTTP_HOST'] <> 'localhost') {
+    #        $this->enviar_mail_local();
+    #        return;          
+    #    }
 
     $id_empresa = $this->input->post('id_empresa');
     $id_factura = $this->input->post('id_factura');
