@@ -262,14 +262,14 @@ $this->load->library('pdf', $options);
     // 2. Configurar Dompdf
 
 
-#$this->pdf->loadHtml($html);
-#$this->pdf->render();
-#$this->pdf->stream("comprobante.pdf", array("Attachment" => false));
+$this->pdf->loadHtml($html);
+$this->pdf->render();
+$this->pdf->stream("comprobante.pdf", array("Attachment" => false));
 
 
-        $this->pdf->loadHtml($html);
-        $this->pdf->setPaper('A4', 'portrait');
-        $this->pdf->render();
+        #$this->pdf->loadHtml($html);
+        #$this->pdf->setPaper('A4', 'portrait');
+        #$this->pdf->render();
 
     // 3. Obtener el contenido del PDF en memoria
     $output = $this->pdf->output();
