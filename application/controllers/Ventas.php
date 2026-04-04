@@ -387,7 +387,7 @@ $encoded_content = chunk_split(base64_encode($content));
 $boundary = md5(time());
 
 // Headers
-$headers  = "From: notificaciones@facilsassn.com\r\n";
+$headers  = "From: comprobantes@facilsas.site\r\n";
 $headers .= "Reply-To: ". $empresa->email ."\r\n";
 $headers .= "MIME-Version: 1.0\r\n";
 $headers .= "Content-Type: multipart/mixed; boundary=\"".$boundary."\"\r\n";
@@ -418,10 +418,10 @@ redirect('ventas');
 public function enviar_mail()
 {
     #esto solo sirve para local por el momento    
-    #if ($_SERVER['HTTP_HOST'] <> 'localhost') {
-    #        $this->enviar_mail_local();
-    #        return;          
-    #    }
+    if ($_SERVER['HTTP_HOST'] <> 'localhost') {
+            $this->enviar_mail_local();
+            return;          
+        }
 
     $id_empresa = $this->input->post('id_empresa');
     $id_factura = $this->input->post('id_factura');
@@ -532,16 +532,15 @@ $this->email->clear(TRUE);
     // ============================
     if (!$this->email->send()) {
         $this->session->set_flashdata('toast_error', 'Error al enviar: ' . $this->email->print_debugger());
-      var_dump($this->email->print_debugger());
+        var_dump($this->email->print_debugger());
         die(); 
     } else {
         $this->session->set_flashdata('toast_success', 'Factura enviada correctamente');
       
          } 
     
-     var_dump($this->email->print_debugger());
-        die(); 
-    //redirect('ventas');
+      
+    redirect('ventas');
 }  
     
 }  
