@@ -482,8 +482,8 @@ public function enviar_mail()
         'crlf'      => "\r\n",
         'validate' => 'false',
         'wordwrap' => TRUE,
-         'smtp_timeout' => 30,
-         'smtp_keepalive' => false
+        'smtp_timeout' => 30,
+        'smtp_keepalive' => false
           ];
 
 $config['smtp_conn_options'] = array(
@@ -508,8 +508,8 @@ $config = [
 */
 $this->load->library('email',$config);
 $this->email->clear(TRUE);
- var_dump($this->email->smtp_connect());
-exit;
+// var_dump($this->email->smtp_connect());
+//exit;
 
 
     // ============================
@@ -539,8 +539,9 @@ exit;
       
          } 
     
-    
-    redirect('ventas');
+     var_dump($this->email->print_debugger());
+        die(); 
+    //redirect('ventas');
 }  
     
 }  
