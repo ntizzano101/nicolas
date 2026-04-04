@@ -264,13 +264,13 @@ public function guardar_pdf($id)
     $this->pdf->setPaper('A4', 'portrait');
    
 // Márgenes en centímetros
-$dompdf->set_option('defaultFont', 'Helvetica');
-$dompdf->set_option('isHtml5ParserEnabled', true);
+$this->pdf->set_option('defaultFont', 'Helvetica');
+$this->pdf->set_option('isHtml5ParserEnabled', true);
 
-$dompdf->set_option('margin_top', 5);
-$dompdf->set_option('margin_bottom', 5);
-$dompdf->set_option('margin_left', 5);
-$dompdf->set_option('margin_right', 5);
+$this->pdf->set_option('margin_top', 5);
+$this->pdf->set_option('margin_bottom', 5);
+$this->pdf->set_option('margin_left', 5);
+$this->pdf->set_option('margin_right', 5);
 
     $this->pdf->render();
 
