@@ -226,11 +226,10 @@ font-size:small;
 							$ff=shell_exec("php ".$ruta_abs."facturaelectronica/phpqrcode/uso.php ".$valor." ".$empresa->cuit."-".$venta->id_factura);							
 							$f=@fopen($ruta_url."facturaelectronica/phpqrcode/uso.php?valor=".$valor."&nombre=".$empresa->cuit."-".$venta->id_factura,$r);													
 							?>							
-							<img src="<?php echo $ruta_url; ?>facturaelectronica/qrs/<?php echo $empresa->cuit."-".$venta->id_factura?>.png" style="width:200px 
-							;height:200px;">				
+							<img src="<?php echo $ruta_url ?>facturaelectronica/qrs/<?php echo $empresa->cuit."-".$venta->id_factura?>.png" style="width:200px;height:200px;">				
 						</td>
 						<td>
-							<img src="<?php echo base_url()?>img/arca.png" style="width:200px;"><br>
+							<img src="<?php echo base_url()?>img/arca.png" style="width:400px;"><br>
 							CAE Nro: <?php echo $venta->cae ?>
 							Fecha.Vto.Cae: <?php echo fechaDBtoHtml($venta->cae_vence) ?>
 						</td>						
