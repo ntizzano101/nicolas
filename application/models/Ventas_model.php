@@ -367,12 +367,14 @@ class Ventas_model extends CI_Model {
             $sql="select max(numero) as ultimo from facturas where puerto=".$obj->factnro1." and cod_afip=(SELECT cod_afip from cod_afip where id=".$obj->cod_afip.") and id_cliente >0";
             $rta=$this->db->query($sql)->result();        
             $ultimo1=$rta[0]->ultimo;  
-            if($ultimo1==0){    
+            if($ultimo1==0 or $ultimo1==Null or empty($ultimo1)){    
                 $rta=$this->db->query("select  ultimo from puertos where puerto='".$obj->factnro1."' and cod_afip=(SELECT cod_afip from cod_afip where id=".$obj->cod_afip.")");
-                $a=$rta->result();
-                $ultimo1=$a[0]->ultimo;
-                $ultimo1=$ultimo1+1;            
-                }  
+                $ax=$rta->result();
+                $ultimo1=$ax[0]->ultimo;
+                $ultimo1=$ultimo1+1;
+
+                }
+            else{$ultimo1++;}      
             $manual="";    
             if($a[0]->tipo=='M' and in_array($a[0]->letra,array('A','B','C'))){$manual=" cae= 'MANUAL',";}
             $this->db->query("UPDATE facturas set ".$manual." numero=".$ultimo1." where id_factura=".$last_id);        
