@@ -13,6 +13,13 @@ function fechaDBtoHtml($t){
 <html>
 <head>
 <style  type="text/css">
+@page {
+    margin: 10px;
+}
+body {
+    margin: 0;
+}
+
 body{
 	font-family:verdana;
 	font-size:small;
