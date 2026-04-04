@@ -245,7 +245,11 @@ class Ventas extends CI_Controller {
 
 public function guardar_pdf($id)
 {
-    $this->load->library('pdf'); // Tu clase Pdf que extiende Dompdf
+//    $this->load->library('pdf'); // Tu clase Pdf que extiende Dompdf
+
+$options = new Dompdf\Options();
+$options->set('isRemoteEnabled', true);
+$this->load->library('pdf', $options);
 
     // 1. Renderizar la vista a HTML
        if(!($id>0)){ return false;}
@@ -256,6 +260,13 @@ public function guardar_pdf($id)
         $data["items"]=$this->ventas_model->items($id);       
         $html=$this->load->view('ventas/comprobante.php', $data, TRUE);
     // 2. Configurar Dompdf
+
+
+#$this->pdf->loadHtml($html);
+#$this->pdf->render();
+#$this->pdf->stream("comprobante.pdf", array("Attachment" => false));
+
+
         $this->pdf->loadHtml($html);
         $this->pdf->setPaper('A4', 'portrait');
         $this->pdf->render();
