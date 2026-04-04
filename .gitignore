@@ -3,6 +3,7 @@ user_guide/
 application/cache/
 application/logs/
 application/config/config.php
+application/config/afip.php
 application/config/database.php
 semeinsa/
 zapatahs/

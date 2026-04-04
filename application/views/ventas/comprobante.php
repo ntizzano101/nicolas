@@ -228,7 +228,7 @@ font-size:small;
 							height="200">				
 						</td>
 						<td>
-							<img src="<?php echo base_url()?>img/arca.png"><br>
+							<img src="<?php echo base_url()?>img/arca.png" style="width:200px;"><br>
 							CAE Nro: <?php echo $venta->cae ?>
 							Fecha.Vto.Cae: <?php echo fechaDBtoHtml($venta->cae_vence) ?>
 						</td>						
