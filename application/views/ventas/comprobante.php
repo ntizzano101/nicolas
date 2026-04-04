@@ -232,7 +232,7 @@ font-size:small;
 							$ruta_url = $this->config->item('ruta_afip_url');
 							$ff=shell_exec("php ".$ruta_abs."facturaelectronica/phpqrcode/uso.php ".$valor." ".$empresa->cuit."-".$venta->id_factura);							
 							$f=@fopen($ruta_url."facturaelectronica/phpqrcode/uso.php?valor=".$valor."&nombre=".$empresa->cuit."-".$venta->id_factura,$r);													
-							copy($ruta_abs."facturaelectronica/qrs/". $empresa->cuit."-".$venta->id_factura."png", FCPATH ."qrs/". $empresa->cuit."-".$venta->id_factura."png",)
+							copy($ruta_abs."facturaelectronica/qrs/". $empresa->cuit."-".$venta->id_factura.".png", FCPATH ."qrs/". $empresa->cuit."-".$venta->id_factura.".png");
 							?>							
 							<img src="<?php echo base_url() ?>qrs/<?php echo $empresa->cuit."-".$venta->id_factura?>.png" style="width:150px;height:150px;">				
 						</td>
