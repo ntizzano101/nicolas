@@ -371,9 +371,10 @@ public function periva() {
 }
 
    private function send($array) {
+echo "llegue";
 
     if (!is_array($array)) return false;
-echo "llegue";
+
     $send = array('token' => $this->security->get_csrf_hash()) + $array;
 
     if (!headers_sent()) {
