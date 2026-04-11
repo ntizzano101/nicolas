@@ -279,12 +279,12 @@ $(document).ready(function(){
 });
 
 function verBorrar(id,cliente){   
-    $.post(CFG.url + 'Ajax',
+    $.get(CFG.url + 'ajax/index',
         {id:id},
         function(data){
             alert(data);
         });
-
+    }
     /*$.post(CFG.url + 'Ajax/borrar_comprobante/',
         {id:id},
         function(data){   
