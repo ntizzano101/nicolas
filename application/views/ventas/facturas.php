@@ -282,7 +282,7 @@ function verBorrar(id,cliente){
     $.post(CFG.url + 'Ajax/borrar_comprobante/',
         {id:id},
         function(data){   
-           alert(data);       
+            
            if(data.mensaje!=""){
                 $("#msjError").html(data.mensaje);                
                 $("#mdlError").modal("show");

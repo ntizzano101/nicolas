@@ -13,11 +13,7 @@ class Ajax extends CI_Controller {
         error_reporting(E_ALL);
     }    
 
- public function hola(){
-    echo("HA MIRA");
- }
-
-public function busca_proveedor() {
+ public function busca_proveedor() {
         $id=$this->input->post('id');
         if(is_numeric($id)){
         $this->load->model('facturas_model');
@@ -291,7 +287,7 @@ public function busca_proveedor() {
          
     }
     public function borrar_comprobante() {
-    echo("HA MIRA"); exit;
+   
     $id=$this->input->post('id');          
        $this->load->model('ventas_model');           
        $rta=$this->ventas_model->borrar_comprobante($id);  
