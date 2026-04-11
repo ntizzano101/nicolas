@@ -279,30 +279,29 @@ $(document).ready(function(){
 });
 
 function verBorrar(id,cliente){  
-    alert('vamos') ;
+    alert("vamos") 
     $.get(CFG.url + 'ajax/index',       
         function(data){
             alert(data);
         });
     }
-    
-    /*$.post(CFG.url + 'Ajax/borrar_comprobante/',
-        {id:id},
-        function(data){   
-            
-           if(data.mensaje!=""){
-                $("#msjError").html(data.mensaje);                
-                $("#mdlError").modal("show");
-           }
-           else{
-            $("#msjBorrar").html("¿Está seguro de borrar el comprobante ID:"+ id + " del Cliente : " + cliente + " ?");
-            $("#hrefBorrar").attr("href","<?php echo base_url()?>ventas/borrar/" + id );
-            $("#mdlVerBorrar").modal("show");
 
-           }
-        });
-        /*
-    }
+//    $.post(CFG.url + 'Ajax/borrar_comprobante/',
+//        {id:id},
+//        function(data){   //            
+//           if(data.mensaje!=""){
+//                $("#msjError").html(data.mensaje);                
+ //               $("#mdlError").modal("show");
+  //         }
+   ////        else{
+   //         $("#msjBorrar").html("¿Está seguro de borrar el comprobante ID:"+ id + " del Cliente : " + cliente + " ?");
+    //////        $("#hrefBorrar").attr("href","<?php echo base_url()?>ventas/borrar/" + id );
+            //$("#mdlVerBorrar").modal("show");
+
+     //      }
+    //    });
+        
+    //} -->
     function modificar_nro(id){
     $.post(CFG.url + 'Ajax/comprobantecambiar/',
         {id:id},
