@@ -280,7 +280,8 @@ $(document).ready(function(){
 
 function verBorrar(id,cliente){  
     alert("vamos") 
-    $.post(CFG.url + 'ajax/index',       
+    $.post(CFG.url + 'ajax/index',
+        {id:id},       
         function(data){
             alert(data);
         });

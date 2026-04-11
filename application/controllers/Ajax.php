@@ -14,7 +14,7 @@ class Ajax extends CI_Controller {
     }    
 
 public function index(){
-    echo("Mate Cociudo");
+    echo("Mate Cociudo n:1" . $this->input->post('id'));
 }
 
  public function busca_proveedor() {
