@@ -299,7 +299,7 @@ public function index(){
        $data = new stdClass();       
        #$data->mensaje= $rta;     
        $data->mensaje="HOOOOOOOOOOOOLALALA";    
-       var_dump($data);
+      // var_dump($data);
       // $resp=json_decode(json_encode($data), true);
       $resp = (array) $data;       
        $this->send($resp);        
