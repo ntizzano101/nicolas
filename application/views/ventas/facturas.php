@@ -267,8 +267,7 @@ $(document).ready(function(){
         $('input[name^="item_id"]').each(function() {
             a.push($(this).val());            
         });                 
-        //$.post(CFG.url + 'Ajax/cambioItems/',
-        $.get("<?= site_url('Ajax/cambioItems/') ?>",
+        $.post(CFG.url + 'Ajax/cambioItems/',        
         {   id:a,
             items:b},
         function(data){                                                   
@@ -282,7 +281,8 @@ $(document).ready(function(){
 function verBorrar(id,cliente){
     $.post(CFG.url + 'Ajax/borrar_comprobante/',
         {id:id},
-        function(data){         
+        function(data){   
+           alert(data);       
            if(data.mensaje!=""){
                 $("#msjError").html(data.mensaje);                
                 $("#mdlError").modal("show");
@@ -328,7 +328,6 @@ function verBorrar(id,cliente){
          $("body").append(html); $("#modalEnviarMail").modal("show"); } ); 
      }
 
-</script>
 </script>
 <?php if ($this->session->flashdata('toast_success')): ?>
 <script>

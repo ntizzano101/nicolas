@@ -293,7 +293,8 @@ class Ajax extends CI_Controller {
          
     }
     public function borrar_comprobante() {
-        $id=$this->input->post('id');          
+    die("HA MIRA");   
+    $id=$this->input->post('id');          
        $this->load->model('ventas_model');           
        $rta=$this->ventas_model->borrar_comprobante($id);  
        $data = new stdClass();       
