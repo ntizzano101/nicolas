@@ -278,13 +278,14 @@ $(document).ready(function(){
 
 });
 
-function verBorrar(id,cliente){   
-    $.get(CFG.url + 'ajax/index',
-        {id:id},
+function verBorrar(id,cliente){  
+    alert('vamos') ;
+    $.get(CFG.url + 'ajax/index',       
         function(data){
             alert(data);
         });
     }
+    
     /*$.post(CFG.url + 'Ajax/borrar_comprobante/',
         {id:id},
         function(data){   
