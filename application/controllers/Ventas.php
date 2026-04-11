@@ -243,7 +243,7 @@ class Ventas extends CI_Controller {
         $this->load->view('ventas/comprobante.php',$data);
     }
 
-public function guardar_pdf($id)
+public function guardar_pdf($id,$mostrar=true)
 {
     if (!($id > 0)) { return false; }
 
@@ -428,10 +428,15 @@ public function enviar_mail()
     // 1. EMPRESA
     $empresa = $this->db->where('id_empresa', $id_empresa)->get('empresas')->row();
 
+
+
+
     // 2. FACTURA + PDF
     $factura   = $this->db->where('id_factura', $id_factura)->get('facturas')->row();        
     $ruta_pdf   = FCPATH . "pdfs/comprobante_". $id_factura .".pdf";
 
+// Si no existe intento crearlo
+    if (!file_exists($ruta_pdf)) {$this->guardar_pdf($id_factura,false);}
     if (!file_exists($ruta_pdf)) {
         $this->session->set_flashdata('toast_error', 'No se encontró el PDF de la factura');
         redirect('ventas');
