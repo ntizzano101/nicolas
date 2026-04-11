@@ -429,9 +429,8 @@ public function enviar_mail()
     $empresa = $this->db->where('id_empresa', $id_empresa)->get('empresas')->row();
 
     // 2. FACTURA + PDF
-    $factura   = $this->db->where('id_factura', $id_factura)->get('facturas')->row();
-    $pdf_nombre = $this->guardar_pdf($id_factura);
-    $ruta_pdf   = FCPATH . "pdfs/" . $pdf_nombre;
+    $factura   = $this->db->where('id_factura', $id_factura)->get('facturas')->row();        
+    $ruta_pdf   = FCPATH . "pdfs/comprobante_".$id.".pdf"
 
     if (!file_exists($ruta_pdf)) {
         $this->session->set_flashdata('toast_error', 'No se encontró el PDF de la factura');
