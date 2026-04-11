@@ -279,8 +279,8 @@ $(document).ready(function(){
 });
 
 function verBorrar(id,cliente){
-    alert(CFG.url + 'Ajax/borrar_comprobante/');
-    $.post(CFG.url + 'Ajax/borrar_comprobante/',
+    alert(CFG.url + 'ajax/borrar_comprobante/');
+    $.post(CFG.url + 'ajax/borrar_comprobante/',
         {id:id},
         function(data){   
            alert(data);       
