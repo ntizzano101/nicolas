@@ -292,13 +292,16 @@ public function index(){
     }
     public function borrar_comprobante() {
    
-    $id=$this->input->post('id');          
-       $this->load->model('ventas_model');           
-       $rta=$this->ventas_model->borrar_comprobante($id);  
+       $id=$this->input->post('id');          
+       $this->load->model('ventas_model'); 
+                 
+       #$rta=$this->ventas_model->borrar_comprobante($id);  
        $data = new stdClass();       
-       $data->mensaje= $rta;     
-       $resp=json_decode(json_encode($data), true);
-       $this->send($resp);        
+       #$data->mensaje= $rta;     
+       $data->mensaje="LALALA";
+       echo($data->mensae);
+       #$resp=json_decode(json_encode($data), true);
+       #$this->send($resp);        
         
    }
    public function comprobantecambiar() {
