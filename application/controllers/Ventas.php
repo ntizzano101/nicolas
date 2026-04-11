@@ -418,11 +418,13 @@ redirect('ventas');
 public function enviar_mail()
 {
     #esto solo sirve para local por el momento    
+    #11/04/2026 Ahora Funciona entonces saco
+    /*
     if ($_SERVER['HTTP_HOST'] <> 'localhost') {
             $this->enviar_mail_local();
             return;          
         }
-
+    */
     $id_empresa = $this->input->post('id_empresa');
     $id_factura = $this->input->post('id_factura');
     $id_cuenta  = $this->input->post('id_cuenta');
