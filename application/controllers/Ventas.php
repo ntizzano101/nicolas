@@ -477,7 +477,7 @@ public function enviar_mail()
         'smtp_user' => $cuenta->smtp_user,
         'smtp_pass' => $cuenta->smtp_pass,
         'smtp_port' => $cuenta->smtp_port,
-        'smtp_crypto' => $cuenta->smtp_crypto, // tls / ssl / vacío
+        'smtp_crypto' => strtolower($cuenta->smtp_crypto) === 'ssl' ? 'ssl' : 'tls',
         'mailtype'  => "html",
         'charset'   => 'utf-8',
         'newline'   => "\r\n",
@@ -494,25 +494,8 @@ $config['smtp_conn_options'] = array(
                 'verify_peer_name' => false, 
                 'allow_self_signed'=> true )
 );
-/*
-$config = [
-    'protocol'    => 'smtp',
-    'smtp_host'   => 'c2790665.ferozo.com',
-    'smtp_user'   => 'tioalberto@facilsassn.online',
-    'smtp_pass'   => '7XQSma/1aF',
-    'smtp_port'   => 465,
-    'smtp_crypto' => 'ssl',
-    'mailtype'    => 'html',
-    'charset'     => 'utf-8',
-    'newline'     => "\r\n",
-    'crlf'        => "\r\n"
-];
-*/
 $this->load->library('email',$config);
 $this->email->clear(TRUE);
-// var_dump($this->email->smtp_connect());
-//exit;
-
 
     // ============================
     // 5. ARMAR MAIL
