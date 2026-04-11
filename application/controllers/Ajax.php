@@ -291,7 +291,7 @@ public function busca_proveedor() {
          
     }
     public function borrar_comprobante() {
-    echo("HA MIRA");  die(); 
+    echo("HA MIRA"); exit;
     $id=$this->input->post('id');          
        $this->load->model('ventas_model');           
        $rta=$this->ventas_model->borrar_comprobante($id);  
