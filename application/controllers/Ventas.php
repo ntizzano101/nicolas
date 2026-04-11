@@ -417,14 +417,6 @@ redirect('ventas');
     }   
 public function enviar_mail()
 {
-    #esto solo sirve para local por el momento    
-    #11/04/2026 Ahora Funciona entonces saco
-    /*
-    if ($_SERVER['HTTP_HOST'] <> 'localhost') {
-            $this->enviar_mail_local();
-            return;          
-        }
-    */
     $id_empresa = $this->input->post('id_empresa');
     $id_factura = $this->input->post('id_factura');
     $id_cuenta  = $this->input->post('id_cuenta');
@@ -432,8 +424,6 @@ public function enviar_mail()
     $para       = $this->input->post('para');
     $asunto     = $this->input->post('asunto');
     $mensaje    = $this->input->post('mensaje');
-
-
 
     // ============================
     // 1. DATOS DE EMPRESA
@@ -445,16 +435,13 @@ public function enviar_mail()
     // ============================
     $factura = $this->db->where('id_factura', $id_factura)->get('facturas')->row();
 
-    // Ruta del PDF ya generado
-    //lo creo primero
-    $pdf_nombre=$this->guardar_pdf($id_factura);
-
-    $ruta_pdf = FCPATH . "pdfs/" . $pdf_nombre;
+    // Generar PDF
+    $pdf_nombre = $this->guardar_pdf($id_factura);
+    $ruta_pdf   = FCPATH . "pdfs/" . $pdf_nombre;
 
     if (!file_exists($ruta_pdf)) {
         $this->session->set_flashdata('toast_error', 'No se encontró el PDF de la factura');
         redirect('ventas');
-       
     }
 
     // ============================
@@ -465,43 +452,42 @@ public function enviar_mail()
     if (!$cuenta) {
         $this->session->set_flashdata('toast_error', 'Cuenta SMTP inválida');
         redirect('ventas');
-        
     }
 
     // ============================
-    // 4. CONFIGURAR SMTP (CodeIgniter)
+    // 4. CONFIGURAR SMTP (MISMA CONFIG QUE FUNCIONA)
     // ============================
     $config = [
-        'protocol'  => 'smtp',
-        'smtp_host' => $cuenta->smtp_host,
-        'smtp_user' => $cuenta->smtp_user,
-        'smtp_pass' => $cuenta->smtp_pass,
-        'smtp_port' => $cuenta->smtp_port,
-        'smtp_crypto' => strtolower($cuenta->smtp_crypto) === 'ssl' ? 'ssl' : 'tls',
-        'mailtype'  => "html",
-        'charset'   => 'utf-8',
-        'newline'   => "\r\n",
-        'crlf'      => "\r\n",
-        'validate' => 'false',
-        'wordwrap' => TRUE,
-        'smtp_timeout' => 30,
-        'smtp_keepalive' => false
-          ];
+        'protocol'      => 'smtp',
+        'smtp_host'     => $cuenta->smtp_host,
+        'smtp_user'     => $cuenta->smtp_user,
+        'smtp_pass'     => $cuenta->smtp_pass,
+        'smtp_port'     => $cuenta->smtp_port,
+        'smtp_crypto'   => strtolower($cuenta->smtp_crypto) === 'ssl' ? 'ssl' : 'tls',
+        'mailtype'      => 'html',
+        'charset'       => 'utf-8',
+        'newline'       => "\r\n",
+        'crlf'          => "\r\n",
+        'smtp_timeout'  => 20,
+        'smtp_keepalive'=> TRUE,
+    ];
 
-$config['smtp_conn_options'] = array(
-    'ssl' => array( 
-                'verify_peer' => false, 
-                'verify_peer_name' => false, 
-                'allow_self_signed'=> true )
-);
-$this->load->library('email',$config);
-$this->email->clear(TRUE);
+    // Evitar errores de certificados (DonWeb)
+    $config['smtp_conn_options'] = [
+        'ssl' => [
+            'verify_peer'       => false,
+            'verify_peer_name'  => false,
+            'allow_self_signed' => true
+        ]
+    ];
+
+    $this->load->library('email', $config);
+    $this->email->clear(TRUE);
 
     // ============================
     // 5. ARMAR MAIL
     // ============================
-    $this->email->from($cuenta->smtp_user, $cuenta->nombre);    
-
+    $this->email->from($cuenta->smtp_user, $cuenta->nombre);
     $this->email->to($para);
 
     $this->email->subject($asunto);
@@ -510,23 +496,24 @@ $this->email->clear(TRUE);
     // Adjuntar PDF
     $this->email->attach($ruta_pdf);
 
-
-   
     // ============================
     // 6. ENVIAR
     // ============================
     if (!$this->email->send()) {
-        $this->session->set_flashdata('toast_error', 'Error al enviar: ' . $this->email->print_debugger());
-        var_dump($this->email->print_debugger());
-        die(); 
-    } else {
-        $this->session->set_flashdata('toast_success', 'Factura enviada correctamente');
-      
-         } 
-    
-      
+
+        // Debug detallado
+        $error = $this->email->print_debugger();
+
+        $this->session->set_flashdata('toast_error', 'Error al enviar el correo');
+        log_message('error', "SMTP ERROR: " . $error);
+
+        echo "<pre>$error</pre>";
+        die();
+    }
+
+    $this->session->set_flashdata('toast_success', 'Factura enviada correctamente');
     redirect('ventas');
-}  
-    
+}
+
 }  
 ?>
