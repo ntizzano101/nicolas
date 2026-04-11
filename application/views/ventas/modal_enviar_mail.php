@@ -56,8 +56,7 @@
 Estimado <?= $cliente->cliente ?>,
 Adjuntamos la factura correspondiente al periodo <?= date('m/Y') ?>.
 Muchas gracias.
-<?php echo( $empresa->razon_soc ."\r\n" . $empresa->direccion ."\r\n" . $empresa->telefono
-."\r\n" . $empresa->telefono);
+<?php echo( $empresa->razon_soc ."\r\n" . $empresa->direccion ."\r\n" . $empresa->telefono);
 ?>
 
 Datos para Transferencia : 

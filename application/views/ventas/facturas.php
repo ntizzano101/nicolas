@@ -267,7 +267,8 @@ $(document).ready(function(){
         $('input[name^="item_id"]').each(function() {
             a.push($(this).val());            
         });                 
-        $.post(CFG.url + 'Ajax/cambioItems/',
+        //$.post(CFG.url + 'Ajax/cambioItems/',
+        $.post("<?= site_url('Ajax/cambioItems/') ?>"
         {   id:a,
             items:b},
         function(data){                                                   
