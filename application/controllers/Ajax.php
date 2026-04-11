@@ -262,23 +262,7 @@ class Ajax extends CI_Controller {
     }
     public function busca_puertos() {
          $id=$this->input->post('id');
-         $empresa=$this->input->post('empresa');         
-
-         /*$rta=array("00001");
-         if($id>0){
-             if($empresa==1){
-                //embotelladora
-                  if($id<900)
-                    $rta=array("00003","00004","00005","00006","00007");
-                    
-             }             
-             if($empresa==3){
-                if($id<900)   
-                        $rta=array("00002");
-             }
-
-         }
-        */        
+         $empresa=$this->input->post('empresa');             
         $this->load->model('ventas_model');       
         $rta=$this->ventas_model->puertos($empresa,$id);
         $data = new stdClass();
