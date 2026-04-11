@@ -4,13 +4,17 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 class Ajax extends CI_Controller {
 
     public function __construct() {
-        parent::__construct();
+     parent::__construct();
+            if(!isset($this->session->usuario)){
+                redirect('salir');
+                exit;
+            }		
         ini_set('display_errors', 1);
         error_reporting(E_ALL);
     }    
 
  public function hola(){
-    die("HA MIRA");
+    echo("HA MIRA");
  }
 /*
 public function busca_proveedor() {
