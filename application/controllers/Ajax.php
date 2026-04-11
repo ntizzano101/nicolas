@@ -372,8 +372,7 @@ public function periva() {
 }
 
    private function send($array) {
-    echo "llegue";
-     die("safasdfas");
+   
 
     if (!is_array($array)) return false;
 
