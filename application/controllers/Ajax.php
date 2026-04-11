@@ -13,6 +13,10 @@ class Ajax extends CI_Controller {
         error_reporting(E_ALL);
     }    
 
+public function index(){
+    echo("Haaa Mira.... ");
+}
+
  public function busca_proveedor() {
         $id=$this->input->post('id');
         if(is_numeric($id)){
