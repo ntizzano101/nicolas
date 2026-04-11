@@ -300,8 +300,8 @@ public function index(){
        #$data->mensaje= $rta;     
        $data->mensaje="HOOOOOOOOOOOOLALALA";       
        $resp=json_decode(json_encode($data), true);
-       echo($data->mensaje);
-       #$this->send($resp);        
+       #echo($data->mensaje);
+       $this->send($resp);        
         
    }
    public function comprobantecambiar() {
