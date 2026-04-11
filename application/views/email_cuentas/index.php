@@ -42,6 +42,10 @@
                                class="btn btn-sm btn-primary">
                                 Editar
                             </a>
+                            <a href="<?= base_url('email_cuentas/probar/'.$c->id) ?>" 
+                            class="btn btn-primary">
+                            Probar
+                            </a>
 
                             <a href="<?= site_url('email_cuentas/eliminar/'.$c->id) ?>"
                                class="btn btn-sm btn-danger"

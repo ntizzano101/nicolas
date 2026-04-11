@@ -106,6 +106,8 @@ $route['ventas/comprobante(:num)'] = 'ventas/comprobante/$1';
 #EMAIL
 $route['correos'] = 'email_cuentas/index';
 $route['correos_configurar'] ='email_cuentas/form';
+$route['email_cuentas/probar/(:num)'] = 'email_cuentas/probar/$1';
+
 
 
 

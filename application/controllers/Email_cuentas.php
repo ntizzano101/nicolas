@@ -48,6 +48,45 @@ public function index() {
         redirect('email_cuentas');
     }
 
+public function probar($id)
+    {
+        $cuenta = $this->Email_config_model->get($id);
+        $this->load->library('email');
+        if (!$cuenta) {
+            show_error("Cuenta no encontrada");
+        }
 
+        // Configuración SMTP desde la BD
+        $config = [
+            'protocol'    => 'smtp',
+            'smtp_host'   => $cuenta->smtp_host,
+            'smtp_user'   => $cuenta->smtp_user,
+            'smtp_pass'   => $cuenta->smtp_pass,
+            'smtp_port'   => $cuenta->smtp_port,
+            'smtp_crypto' => $cuenta->smtp_crypto,
+            'mailtype'    => $cuenta->mailtype,
+            'charset'     => $cuenta->charset,
+            'newline'     => "\r\n",
+            'crlf'        => "\r\n"
+        ];
+
+        $this->email->initialize($config);
+
+        // Email de prueba
+        $this->email->from($cuenta->smtp_user, 'Prueba SMTP');
+        $this->email->to($cuenta->smtp_user);
+        $this->email->subject('Prueba de configuración SMTP');
+        $this->email->message('Este es un correo de prueba enviado desde CodeIgniter 3.');
+
+        if ($this->email->send()) {
+            $resultado = "<div style='color:green;font-size:18px'>✔️ Correo enviado correctamente.</div>";
+        } else {
+            $resultado = "<div style='color:red;font-size:18px'>❌ Error al enviar:</div><pre>" . $this->email->print_debugger() . "</pre>";
+        }
+
+        echo "<h2>Resultado de la prueba</h2>";
+        echo $resultado;
+        echo "<br><br><a href='" . base_url('email_cuentas/editar/'.$id) . "'>Volver</a>";
+    }
 
 }
