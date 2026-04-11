@@ -298,9 +298,9 @@ public function index(){
        #$rta=$this->ventas_model->borrar_comprobante($id);  
        $data = new stdClass();       
        #$data->mensaje= $rta;     
-       $data->mensaje="LALALA";
+       $data->mensaje="HOOOOOOOOOOOOLALALA";       
+       $resp=json_decode(json_encode($data), true);
        echo($data->mensaje);
-       #$resp=json_decode(json_encode($data), true);
        #$this->send($resp);        
         
    }
