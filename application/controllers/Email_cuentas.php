@@ -62,10 +62,12 @@ public function probar($id)
             'smtp_host'   => $cuenta->smtp_host,
             'smtp_user'   => $cuenta->smtp_user,
             'smtp_pass'   => $cuenta->smtp_pass,
-            'smtp_port'   => $cuenta->smtp_port,
-            'smtp_crypto' => $cuenta->smtp_crypto,
+            'smtp_port'   => $cuenta->smtp_port,            
             'mailtype'    => $cuenta->mailtype,
             'charset'     => $cuenta->charset,
+            'smtp_crypto' => strtolower($cuenta->smtp_crypto) === 'ssl' ? 'ssl' : 'tls',
+            'smtp_timeout' => 10,
+            'smtp_keepalive' => TRUE,
             'newline'     => "\r\n",
             'crlf'        => "\r\n"
         ];
