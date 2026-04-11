@@ -268,7 +268,7 @@ $(document).ready(function(){
             a.push($(this).val());            
         });                 
         //$.post(CFG.url + 'Ajax/cambioItems/',
-        $.post("<?= site_url('Ajax/cambioItems/') ?>",
+        $.get("<?= site_url('Ajax/cambioItems/') ?>",
         {   id:a,
             items:b},
         function(data){                                                   
