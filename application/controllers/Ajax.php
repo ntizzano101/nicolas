@@ -3,7 +3,13 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 
 class Ajax extends CI_Controller {
 
-    public function busca_proveedor() {
+    public function __construct() {
+        parent::__construct();
+        ini_set('display_errors', 1);
+        error_reporting(E_ALL);
+    }    
+
+public function busca_proveedor() {
         $id=$this->input->post('id');
         if(is_numeric($id)){
         $this->load->model('facturas_model');
