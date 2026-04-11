@@ -280,7 +280,7 @@ $(document).ready(function(){
 
 function verBorrar(id,cliente){  
     alert("vamos") 
-    $.post(CFG.url + 'ajax/index',
+    $.post(CFG.url + 'ajax/borrar_comprobante',
         {id:id},       
         function(data){
             alert(data);
