@@ -300,7 +300,7 @@ public function index(){
        #$data->mensaje= $rta;     
        $data->mensaje="HOOOOOOOOOOOOLALALA";       
        $resp=json_decode(json_encode($data), true);
-       print_r($resp);
+       echo($resp);
        $this->send($resp);        
         
    }
