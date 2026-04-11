@@ -12,7 +12,7 @@ class Ajax extends CI_Controller {
  public function hola(){
     die("HA MIRA");
  }
-
+/*
 public function busca_proveedor() {
         $id=$this->input->post('id');
         if(is_numeric($id)){
