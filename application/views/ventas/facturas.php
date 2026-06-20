@@ -21,7 +21,7 @@
                     <a class="btn btn-primary" href="<?php echo base_url(); ?>ventas/ingresar">Nueva Venta</a>
                     <br>
                     <form class="navbar-form navbar-left" role="search" method="POST" action="<?php echo base_url(); ?>ventas/buscar">
-                    Cliente<input type="text" class="form-control" name="buscar" >
+                    Cliente,Empresa<input type="text" class="form-control" name="buscar" >
                     Fecha Desde<input type="date" class="form-control" name="fdesde" value="<?=$fdesde?>">
                     Fecha Hasta<input type="date" class="form-control" name="fhasta" value="<?=$fhasta?>">
                     <button type="submit" class="btn btn-default">Buscar</button>								
@@ -63,7 +63,7 @@
                                     else { ?>
                                          <td><?php echo $fact->nombre . " " .  str_pad($fact->puerto,5,"0",STR_PAD_LEFT)."-".  str_pad($fact->numero,8,"0",STR_PAD_LEFT) ;  ?></td>                                        
                                     <?php }?>    
-                                    <td align="right"><?php printf("$ %0.2f", $fact->total * $mult) ?></td>
+                                    <td align="right"><?php printf("$ %0.2f", $fact->total * $mult);$final=$final+ $fact->total * $mult; ?></td>
                                     <td>
                                         <a class="btn-default fa fa-eye" title="Ver Comprobante" 
                                             href="<?php echo base_url(); ?>ventas/comprobante/<?=$fact->id?>" target="blank_">
@@ -95,6 +95,7 @@
                         <?php	
                         }
                         ?>
+                    <tr><td colspan=7 align="right">Total <?php printf("$ %0.2f", $final) ?></td></tr>
                   </tbody>
                 </table>
             </div>
